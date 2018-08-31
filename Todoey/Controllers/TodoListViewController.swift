@@ -24,8 +24,6 @@ class TodoListViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.separatorStyle = .none
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -141,6 +139,13 @@ class TodoListViewController: SwipeTableViewController {
             textField = alertTextField //他のスコープで使えるようにグローバル変数に格納
         }
         alert.addAction(action)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(cancelAction)
+
         present(alert, animated: true, completion: nil)
     }
     

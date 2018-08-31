@@ -20,8 +20,6 @@ class CategoryViewController: SwipeTableViewController {
         super.viewDidLoad()
         
         loadCategories()
-        
-        tableView.separatorStyle = .none
 
     }
 
@@ -29,7 +27,7 @@ class CategoryViewController: SwipeTableViewController {
     //MARK: - TableView Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories?.count  ?? 1
+        return categories?.count ?? 1
     }
     
     
@@ -92,10 +90,10 @@ class CategoryViewController: SwipeTableViewController {
     
     override func updateModel(at indexPath: IndexPath) {
         
-        if let categoryForDeletion = self.categories?[indexPath.row] {
+        if let categoryForDeletion = categories?[indexPath.row] {
             do {
-                try self.realm.write {
-                    self.realm.delete(categoryForDeletion)
+                try realm.write {
+                    realm.delete(categoryForDeletion)
                 }
             } catch {
                 print("Error deleting category, \(error)")
@@ -109,6 +107,7 @@ class CategoryViewController: SwipeTableViewController {
         
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
+        
         let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
             
             // what will happen once the user clicks the Add Category button on our UIAlert
@@ -125,7 +124,15 @@ class CategoryViewController: SwipeTableViewController {
             alertTextField.placeholder = "Create new Category" //optionで調べればalertTextFieldの型がUITextFieldだとわかる　だからvar textField = UITextField()
             textField = alertTextField //他のスコープで使えるようにグローバル変数に格納
         }
+        
         alert.addAction(action)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(cancelAction)
+
         present(alert, animated: true, completion: nil)
         
     }
